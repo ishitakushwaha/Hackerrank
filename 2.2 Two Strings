@@ -11,17 +11,13 @@ public class Solution {
     // Complete the twoStrings function below.
     static String twoStrings(String s1, String s2) {
         char c[] = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-        int flag = 0;
+        
         for(char ch : c) {
             if(s1.indexOf(ch) > -1 && s2.indexOf(ch) > -1)  {
-                flag = 1;
-                break;
+                return("YES");
             }
         } 
-        if(flag == 1)
-            return("YES");
-        else
-            return("NO");    
+       return("NO");    
     }
 
     private static final Scanner scanner = new Scanner(System.in);
