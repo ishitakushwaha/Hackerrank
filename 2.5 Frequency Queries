@@ -1,0 +1,81 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    // Complete the freqQuery function below.
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        List<Integer> r = new ArrayList<Integer>();
+        for(List<Integer> a: queries) {
+            int x = a.get(0);
+            int y = a.get(1);
+            if(x == 1) {
+                if(map.containsKey(y)){
+                    map.put(y, map.get(y)+1);
+                }
+                else {
+                    map.put(y, 1);
+                }
+            }
+            else if(x == 2) {
+                if(map.containsKey(y)) {
+                    if( map.get(y) == 1) {
+                        map.remove(y);
+                    }
+                    else if(map.get(y) > 1){
+                        map.put(y, map.get(y) - 1);
+                    }
+                }
+            }
+            else if( x == 3 ) {
+                int flag = 0;
+                for(int i: map.values()){
+                    if(i == y) {
+                        r.add(1);
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(flag == 0) {
+                    r.add(0);
+                }
+             }
+        }
+        
+        return r;
+    }
+
+   public static void main(String[] args) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(System.in))) {
+            
+            int q = Integer.parseInt(bufferedReader.readLine().trim());
+            int[][] queries = new int[q][2];
+           
+            for (int i = 0; i < q; i++) {
+                String[] query = bufferedReader.readLine().split(" ");
+                queries[i][0] = Integer.parseInt(query[0]);
+                queries[i][1] = Integer.parseInt(query[1]);
+            }
+          
+            List<Integer> ans = freqQuery(queries);
+          
+            try (BufferedWriter bufferedWriter = new BufferedWriter(
+                        new FileWriter(System.getenv("OUTPUT_PATH")))) {
+            
+                bufferedWriter.write(ans.stream().map(Object::toString)
+                            .collect(joining("\n")) + "\n");
+            }
+        }
+    }
+}
